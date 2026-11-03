@@ -42,6 +42,17 @@ let query = '';
 let sortMode = 'featured';
 let showAll = false;
 let toastTimer;
+const analytics = readSaved('playtrade-analytics', { visits: 0, productViews: {}, bagAdds: 0, activity: [] });
+function recordActivity(type, label) {
+  analytics.activity.unshift({ type, label, at: new Date().toISOString() });
+  analytics.activity = analytics.activity.slice(0, 40);
+  try { localStorage.setItem('playtrade-analytics', JSON.stringify(analytics)); } catch { /* Analytics remain available for this visit. */ }
+}
+if (!sessionStorage.getItem('playtrade-visit')) {
+  analytics.visits += 1;
+  sessionStorage.setItem('playtrade-visit', '1');
+  recordActivity('Visit', 'Store opened');
+}
 
 const productGrid = document.querySelector('#product-grid');
 const filterRow = document.querySelector('#filter-row');
@@ -107,6 +118,8 @@ function productCard(item) {
 function openProductDetails(id) {
   const item = allProducts().find((product) => String(product.id) === String(id));
   if (!item) return;
+  analytics.productViews[item.id] = (analytics.productViews[item.id] || 0) + 1;
+  recordActivity('Product view', item.name);
   const imageUrl = item.image || categoryFallbacks[item.category] || products[0].image;
   const description = item.description || `${item.name} is listed in ${item.category}. Contact the seller for any extra product details.`;
   const specs = [
@@ -169,6 +182,8 @@ function persistCart() {
 function addToCart(id, quantity = 1) {
   const item = allProducts().find((product) => String(product.id) === String(id));
   if (!item) return;
+  analytics.bagAdds += 1;
+  recordActivity('Bag add', `${item.name} · Qty ${Math.max(1, quantity)}`);
   const existing = cart.find((line) => String(line.product.id) === String(item.id));
   if (existing) existing.quantity += Math.max(1, quantity);
   else cart.push({ product: item, quantity: Math.max(1, quantity), size: item.variant || 'Standard' });
@@ -294,7 +309,40 @@ document.querySelectorAll('[data-close]').forEach((button) => button.addEventLis
 }));
 document.querySelectorAll('#open-sell,#hero-sell,#banner-sell').forEach((button) => button.addEventListener('click', openSellForm));
 document.querySelector('#open-login').addEventListener('click', () => loginDialog.showModal());
-document.querySelector('#login-form').addEventListener('submit', (event) => { event.preventDefault(); loginDialog.close(); showToast('Demo login: connect an account service to enable sign-in.'); });
+document.querySelector('#login-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  loginDialog.close();
+  sessionStorage.setItem('playtrade-demo-owner', '1');
+  document.querySelector('#open-login').hidden = true;
+  document.querySelector('#open-dashboard').hidden = false;
+  showToast('Demo owner view enabled on this browser.');
+});
+
+function renderOwnerDashboard() {
+  const views = Object.values(analytics.productViews).reduce((sum, value) => sum + value, 0);
+  const revenue = customListings.reduce((sum, item) => sum + Number(item.price || 0), 0);
+  const stats = [
+    ['Store visits', analytics.visits, 'This browser only'],
+    ['Product views', views, 'Detail page opens'],
+    ['Bag adds', analytics.bagAdds, 'Add-to-bag clicks'],
+    ['Your listings', customListings.length, `Listed value ${money(revenue)}`]
+  ];
+  document.querySelector('#owner-stats').innerHTML = stats.map(([label, value, note]) => `<article class="owner-stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong><small>${escapeHtml(note)}</small></article>`).join('');
+  const popular = allProducts().map(item => ({ item, views: analytics.productViews[item.id] || 0 })).sort((a, b) => b.views - a.views).slice(0, 5);
+  document.querySelector('#owner-products').innerHTML = popular.map(({ item, views: count }) => `<div class="owner-row"><span><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.category)} · ${money(item.price)}</small></span><b>${count} views</b></div>`).join('');
+  document.querySelector('#owner-activity').innerHTML = analytics.activity.length ? analytics.activity.slice(0, 10).map(entry => `<div class="owner-row"><span><strong>${escapeHtml(entry.label)}</strong><small>${escapeHtml(entry.type)}</small></span><time>${new Date(entry.at).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</time></div>`).join('') : '<p class="owner-empty">No activity yet.</p>';
+}
+document.querySelector('#open-dashboard').addEventListener('click', () => {
+  if (sessionStorage.getItem('playtrade-demo-owner') !== '1') return;
+  renderOwnerDashboard();
+  document.querySelector('#owner-dialog').showModal();
+});
+document.querySelector('#owner-logout').addEventListener('click', () => {
+  sessionStorage.removeItem('playtrade-demo-owner');
+  document.querySelector('#owner-dialog').close();
+  document.querySelector('#open-login').hidden = false;
+  document.querySelector('#open-dashboard').hidden = true;
+});
 
 document.querySelector('#sell-form').addEventListener('submit', (event) => {
   event.preventDefault();
@@ -339,4 +387,3 @@ document.querySelector('#checkout').addEventListener('click', () => showToast('C
 
 renderProducts();
 renderCart();
-
