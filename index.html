@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f2">
+  <meta name="description" content="Buy, sell, and trade quality sports gear with PlayTrade.">
+  <title>PlayTrade — Gear up. Pass it on.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="announcement"><span class="announcement-dot"></span> Better gear. Better games. Better for the planet. <a href="#how-it-works">How it works <span aria-hidden="true">↗</span></a></div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="PlayTrade home">
+      <span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 5.5c7.1 3.5 14.9 3.5 18 0M7 26.5c7.1-3.5 14.9-3.5 18 0M5.5 7c3.5 7.1 3.5 14.9 0 18M26.5 7c-3.5 7.1-3.5 14.9 0 18"/><circle cx="16" cy="16" r="13"/></svg></span>
+      <span>play<span class="brand-light">trade</span><small>THE SPORTS GEAR MARKET</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation"><a class="active" href="#shop">Shop</a><a href="#categories">Categories</a><a href="#how-it-works">How it works</a></nav>
+    <div class="header-actions">
+      <button class="sell-link" id="open-sell"><span>＋</span> Sell your gear</button>
+      <button class="cart-button" id="open-cart" aria-label="Open shopping bag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 12H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span class="cart-label">Bag</span><span class="cart-count" id="cart-count">0</span></button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> THE CIRCULAR SPORTS MARKETPLACE</div>
+        <h1>Good gear.<br>Great <span>games.</span></h1>
+        <p>Find your next favourite, or pass your old one on. Quality sports gear deserves another round.</p>
+        <div class="hero-actions"><a class="button button-dark" href="#shop">Explore the gear <span>↗</span></a><button class="button button-outline" id="hero-sell">Sell your gear <span>＋</span></button></div>
+        <div class="hero-note"><div class="avatar-stack"><span>AS</span><span>MK</span><span>RJ</span></div><span><strong>2,400+</strong> players made a great find</span><span class="stars">★★★★★</span></div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-image"></div>
+        <div class="hero-sticker"><span>GOOD GEAR</span><strong>GETS<br>ANOTHER<br>GAME.</strong><span class="sticker-sun">✳</span></div>
+        <div class="hero-product-tag"><span class="tag-check">✓</span><span><strong>Pre-loved. Player-approved.</strong><small>Every listing has a story.</small></span><span class="tag-arrow">↗</span></div>
+        <span class="hero-caption">MADE FOR THE NEXT PLAY</span>
+      </div>
+      <div class="hero-backdrop-word" aria-hidden="true">PLAY</div>
+    </section>
+
+    <section class="trust-strip" aria-label="Marketplace benefits">
+      <div><span class="trust-icon">↗</span><span><strong>Great gear, fair prices</strong><small>Save on quality equipment</small></span></div>
+      <div><span class="trust-icon">◎</span><span><strong>Sports gear for every player</strong><small>From first-timers to all-stars</small></span></div>
+      <div><span class="trust-icon">♻</span><span><strong>Play more, waste less</strong><small>Give good gear another game</small></span></div>
+      <div><span class="trust-icon">♡</span><span><strong>By players, for players</strong><small>A community that gets it</small></span></div>
+    </section>
+
+    <section class="category-section" id="categories">
+      <div class="section-heading"><div><span class="eyebrow">FIND WHAT YOU NEED</span><h2>Shop by gear</h2></div><a class="text-link" href="#shop">See all gear <span>↗</span></a></div>
+      <div class="category-grid">
+        <button class="category-card category-running" data-category="Shoes"><span class="category-emoji">👟</span><strong>Shoes</strong><span class="category-arrow">↗</span></button>
+        <button class="category-card category-football" data-category="Boots"><span class="category-emoji">🥾</span><strong>Boots</strong><span class="category-arrow">↗</span></button>
+        <button class="category-card category-fitness" data-category="Bat"><span class="category-emoji">🏏</span><strong>Cricket bats</strong><span class="category-arrow">↗</span></button>
+        <button class="category-card category-cycling" data-category="Football"><span class="category-emoji">⚽</span><strong>Footballs</strong><span class="category-arrow">↗</span></button>
+        <button class="category-card category-racket" data-category="Badminton"><span class="category-emoji">🏸</span><strong>Badminton</strong><span class="category-arrow">↗</span></button>
+        <button class="category-card category-more" data-category="T-shirt"><span class="category-emoji">👕</span><strong>T-shirts</strong><span class="category-arrow">↗</span></button>
+      </div>
+    </section>
+
+    <section class="shop-section" id="shop">
+      <div class="section-heading shop-heading"><div><span class="eyebrow">THE GOOD STUFF</span><h2>Fresh on the field</h2></div><div class="shop-controls"><label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><input id="search-input" type="search" placeholder="Find your next favourite" aria-label="Search gear"></label><label class="sort-control"><span>Sort:</span><select id="sort-select" aria-label="Sort products"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></label></div></div>
+      <div class="filter-row" id="filter-row"><button class="filter-chip selected" data-filter="All">All gear <span id="all-count">12</span></button><button class="filter-chip" data-filter="Shoes">Shoes</button><button class="filter-chip" data-filter="Boots">Boots</button><button class="filter-chip" data-filter="Bat">Bat</button><button class="filter-chip" data-filter="Football">Football</button><button class="filter-chip" data-filter="Badminton">Badminton</button><button class="filter-chip" data-filter="T-shirt">T-shirt</button><button class="filter-chip" data-filter="Jersey">Jersey</button><button class="filter-chip" data-filter="Technosport">Technosport</button><button class="filter-chip" data-filter="Trophy">Trophy</button><span class="filter-note"><span>✳</span> Only your sports categories</span></div>
+      <div class="product-grid" id="product-grid" aria-live="polite"></div>
+      <div class="empty-state" id="empty-state" hidden><span>⌕</span><h3>No gear found</h3><p>Try a different sport or search term.</p><button class="button button-dark" id="clear-filters">Clear filters</button></div>
+      <div class="load-more-wrap"><button class="button button-outline load-more" id="load-more">See all gear <span>↓</span></button><span>Showing <strong id="showing-count">6</strong> of <strong id="total-count">12</strong> finds</span></div>
+    </section>
+
+    <section class="sell-banner"><div class="sell-banner-art"><span class="banner-ball">⚽</span><span class="banner-spark">✳</span><span class="banner-ribbon">YOUR GEAR HAS<br>MORE GAME IN IT</span></div><div class="sell-banner-copy"><span class="eyebrow">READY FOR A NEW PLAYER?</span><h2>Your gear has<br><em>more game in it.</em></h2><p>Clear some space, make someone's day, and earn a little back. Listing takes less than two minutes.</p><button class="button button-dark" id="banner-sell">List your gear <span>↗</span></button></div><div class="banner-number">01<span>/03</span></div></section>
+
+    <section class="how-section" id="how-it-works"><div><span class="eyebrow">EASY AS 1, 2, PLAY</span><h2>Pass it on.<br><span>Play it forward.</span></h2></div><div class="steps"><article><span class="step-number">01</span><span class="step-icon">📸</span><h3>List your gear</h3><p>Snap a photo, add the details, and set your price.</p></article><article><span class="step-number">02</span><span class="step-icon">🤝</span><h3>Meet your match</h3><p>A player finds your gear and places an order.</p></article><article><span class="step-number">03</span><span class="step-icon">🏃</span><h3>Get back in play</h3><p>Ship it off, get paid, and let the next game begin.</p></article></div></section>
+  </main>
+
+  <footer class="site-footer"><a class="brand footer-brand" href="#top"><span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 5.5c7.1 3.5 14.9 3.5 18 0M7 26.5c7.1-3.5 14.9-3.5 18 0M5.5 7c3.5 7.1 3.5 14.9 0 18M26.5 7c-3.5 7.1-3.5 14.9 0 18"/><circle cx="16" cy="16" r="13"/></svg></span><span>play<span class="brand-light">trade</span><small>THE SPORTS GEAR MARKET</small></span></a><p>Good gear deserves another game.</p><span class="footer-copy">© 2026 PlayTrade. Made for the love of play.</span></footer>
+
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping bag" aria-hidden="true"><div class="drawer-header"><div><span class="eyebrow">YOUR NEXT GAME</span><h2>Your bag <span id="drawer-count">(0)</span></h2></div><button class="icon-button" data-close aria-label="Close bag">×</button></div><div class="cart-items" id="cart-items"></div><div class="cart-empty" id="cart-empty"><span>🏃</span><h3>Your bag is warming up</h3><p>Find some great gear and get back in the game.</p><button class="button button-dark" data-close>Explore gear</button></div><div class="cart-footer" id="cart-footer" hidden><div class="subtotal"><span>Subtotal</span><strong id="cart-subtotal">₹0</strong></div><p>Shipping and payment calculated at checkout.</p><button class="button button-dark checkout-button" id="checkout">Continue to checkout <span>↗</span></button></div></aside>
+
+  <dialog class="sell-dialog" id="sell-dialog"><form id="sell-form"><div class="dialog-heading"><div><span class="eyebrow">GIVE IT ANOTHER GAME</span><h2>List your gear</h2><p>Tell us a little about what you're passing on.</p></div><button class="icon-button" type="button" data-close aria-label="Close form">×</button></div><label class="form-field">What are you selling?<input name="name" required maxlength="60" placeholder="e.g. Football boots, size 9"></label><div class="form-columns"><label class="form-field">Product type<select name="category" required><option value="">Choose a product type</option><option>Shoes</option><option>Boots</option><option>Bat</option><option>Football</option><option>Badminton</option><option>T-shirt</option><option>Jersey</option><option>Technosport</option><option>Trophy</option></select></label><label class="form-field">Your price (₹)<input name="price" type="number" min="1" max="1000000" required placeholder="1500"></label></div><div class="form-columns"><label class="form-field">Brand <span class="optional">(optional)</span><input name="brand" maxlength="40" placeholder="e.g. Technosport"></label><label class="form-field">Size / model <span class="optional">(optional)</span><input name="variant" maxlength="50" placeholder="e.g. UK 8 / size 5"></label></div><label class="form-field">Condition<select name="condition" required><option value="">Choose condition</option><option>Like new</option><option>Great</option><option>Good</option></select></label><label class="form-field">Description<textarea name="description" required maxlength="500" rows="3" placeholder="Add material, size, included items, or other useful details"></textarea></label><label class="form-field">Photo URL <span class="optional">(optional)</span><input name="image" type="url" placeholder="https://..."></label><button class="button button-dark submit-listing" type="submit">Preview my listing <span>↗</span></button><p class="form-footnote">Your listing will appear in this demo marketplace.</p></form></dialog>
+  <dialog class="product-dialog" id="product-dialog" aria-labelledby="product-detail-title"><div id="product-detail-content"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
+
