@@ -331,4 +331,3 @@ document.querySelector('#checkout').addEventListener('click', () => showToast('C
 
 renderProducts();
 renderCart();
-
