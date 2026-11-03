@@ -52,6 +52,7 @@ const overlay = document.querySelector('#overlay');
 const cartDrawer = document.querySelector('#cart-drawer');
 const sellDialog = document.querySelector('#sell-dialog');
 const productDialog = document.querySelector('#product-dialog');
+const loginDialog = document.querySelector('#login-dialog');
 const productDetailContent = document.querySelector('#product-detail-content');
 const toast = document.querySelector('#toast');
 
@@ -127,6 +128,7 @@ function openProductDetails(id) {
         <p class="detail-description">${escapeHtml(description)}</p>
         <div class="detail-spec-grid">${specs.map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div>
         <div class="detail-seller"><span class="seller-avatar">${escapeHtml(item.avatar || 'PT')}</span><span><strong>${escapeHtml(item.seller || 'PlayTrade player')}</strong><small>Seller · ${escapeHtml(item.location || 'India')}</small></span></div>
+        <div class="purchase-options"><label>Size / model<select class="detail-size"><option>${escapeHtml(item.variant || 'Standard')}</option>${(item.sizes || []).map(size => `<option>${escapeHtml(size)}</option>`).join('')}</select></label><label>Quantity<input class="detail-quantity" type="number" min="1" max="99" value="1"></label></div>
         <button class="button button-dark detail-add-button" data-add="${escapeAttribute(item.id)}">Add to bag <span>＋</span></button>
       </div>
     </div>`;
@@ -164,12 +166,12 @@ function persistCart() {
   renderCart();
 }
 
-function addToCart(id) {
+function addToCart(id, quantity = 1) {
   const item = allProducts().find((product) => String(product.id) === String(id));
   if (!item) return;
   const existing = cart.find((line) => String(line.product.id) === String(item.id));
-  if (existing) existing.quantity += 1;
-  else cart.push({ product: item, quantity: 1 });
+  if (existing) existing.quantity += Math.max(1, quantity);
+  else cart.push({ product: item, quantity: Math.max(1, quantity), size: item.variant || 'Standard' });
   persistCart();
   showToast(`${item.name} added to your bag`);
 }
@@ -258,7 +260,10 @@ productDetailContent.addEventListener('click', (event) => {
     return;
   }
   const button = event.target.closest('[data-add]');
-  if (button) addToCart(button.dataset.add);
+  if (button) {
+    addToCart(button.dataset.add, Number(productDetailContent.querySelector('.detail-quantity')?.value || 1));
+    productDialog.close();
+  }
 });
 
 document.querySelector('#cart-items').addEventListener('click', (event) => {
@@ -284,9 +289,12 @@ overlay.addEventListener('click', closeCart);
 document.querySelectorAll('[data-close]').forEach((button) => button.addEventListener('click', () => {
   if (sellDialog.open) sellDialog.close();
   if (productDialog.open) productDialog.close();
+  if (loginDialog.open) loginDialog.close();
   if (cartDrawer.classList.contains('open')) closeCart();
 }));
 document.querySelectorAll('#open-sell,#hero-sell,#banner-sell').forEach((button) => button.addEventListener('click', openSellForm));
+document.querySelector('#open-login').addEventListener('click', () => loginDialog.showModal());
+document.querySelector('#login-form').addEventListener('submit', (event) => { event.preventDefault(); loginDialog.close(); showToast('Demo login: connect an account service to enable sign-in.'); });
 
 document.querySelector('#sell-form').addEventListener('submit', (event) => {
   event.preventDefault();
@@ -331,3 +339,4 @@ document.querySelector('#checkout').addEventListener('click', () => showToast('C
 
 renderProducts();
 renderCart();
+
